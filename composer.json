@@ -24,7 +24,7 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^4.0|^5.0",
-        "satooshi/php-coveralls": "~0.7.1"
+        "php-coveralls/php-coveralls": "~1.1"
     },
     "suggest": {
         "ext-apc": "Allows to cache into APC data store ~ up to PHP 5.4.",

@@ -1,7 +1,7 @@
 language: php
-sudo: required
+
 services:
-  - redis-server
+  - redis
   - memcached
   - mongodb
   - mysql
@@ -12,6 +12,8 @@ php:
   - 7.1
   - 7.2
   - 7.3
+  - 7.4
+  - 8.0
   #- nightly
   #- hhvm
 env:
@@ -22,9 +24,12 @@ env:
   - DB=mysql
   - DB=pgsql
   - DB=memcached
-matrix:
+jobs:
   fast_finish: true
   include:
+#    - php: 5.3
+#      dist: precise
+#      env: DB=memcached # memcached client is broken on PHP 5.3
     - php: 5.3
       dist: precise
       env: DB=apc
@@ -43,9 +48,9 @@ matrix:
     - php: 5.3
       dist: precise
       env: DB=pgsql
-    - php: 5.3
-      dist: precise
-      env: DB=memcached
+#    - php: 5.4
+#      dist: trusty
+#      env: DB=memcached # memcached client is broken on PHP 5.4
     - php: 5.4
       dist: trusty
       env: DB=apc
@@ -64,9 +69,9 @@ matrix:
     - php: 5.4
       dist: trusty
       env: DB=pgsql
-    - php: 5.4
-      dist: trusty
-      env: DB=memcached
+#    - php: 5.5
+#      dist: trusty
+#      env: DB=memcached # memcached client is broken on PHP 5.5
     - php: 5.5
       dist: trusty
       env: DB=apc
@@ -85,9 +90,6 @@ matrix:
     - php: 5.5
       dist: trusty
       env: DB=pgsql
-    - php: 5.5
-      dist: trusty
-      env: DB=memcached
     - php: 7.0
       env: DB=mariadb
       addons:
@@ -103,7 +105,7 @@ matrix:
     - php: 7.1
       env: DB=mariadb
       addons:
-        mariadb: 10.1
+        mariadb: 10.2
     - php: 7.2
       env: DB=mariadb
       addons:
@@ -111,7 +113,7 @@ matrix:
     - php: 7.2
       env: DB=mariadb
       addons:
-        mariadb: 10.1
+        mariadb: 10.3
     - php: 7.3
       env: DB=mariadb
       addons:
@@ -119,26 +121,27 @@ matrix:
     - php: 7.3
       env: DB=mariadb
       addons:
-        mariadb: 10.1
+        mariadb: 10.4
+    - php: 7.4
+      env: DB=mariadb
+      addons:
+        mariadb: 5.5
+    - php: 7.4
+      env: DB=mariadb
+      addons:
+        mariadb: 10.5
+    - php: 8.0
+      env: DB=mariadb
+      addons:
+        mariadb: 5.5
+    - php: 8.0
+      env: DB=mariadb
+      addons:
+        mariadb: 10.6
   allow_failures:
     - php: 5.3
-    #- php: nightly
-    - php: 5.3
-      env: DB=memcached # memcached client is broken on PHP 5.3
     - php: 5.4
-      env: DB=memcached # memcached client is broken on PHP 5.4
     - php: 5.5
-      env: DB=memcached # memcached client is broken on PHP 5.5
-    #- php: 7.0
-     # env: DB=memcached # memcached client does not fully support PHP7
-    #- php: 7.1
-     # env: DB=memcached # memcached client does not fully support PHP7
-    #- php: 7.2
-     # env: DB=memcached # memcached client does not fully support PHP7
-    #- php: 7.3
-     # env: DB=memcached # memcached client does not fully support PHP7
-    #- php: hhvm
-      # env: DB=mongodb   # mongodb client does not compile under hhvm
 
 install:
   - travis_retry composer self-update && composer install --no-interaction --prefer-source

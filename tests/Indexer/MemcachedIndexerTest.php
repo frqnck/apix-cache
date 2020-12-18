@@ -67,7 +67,7 @@ class MemcachedIndexerTest extends GenericIndexerTestCase
         $this->assertTrue($this->indexer->add('a'));
         $this->assertTrue($this->indexer->remove($keys));
 
-        $keyStr = implode($keys, ' -');
+        $keyStr = implode(' -', $keys);
         $this->assertEquals(
             'a -' . $keyStr . ' ', $this->cache->get($this->indexKey)
         );
